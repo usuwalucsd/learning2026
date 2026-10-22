@@ -13,14 +13,28 @@ format:
 ## Introduction
 
 Proposal: 
-Justification 
-Zettersten & Saffran (2020) uses cross situational learning tasks to understand how learners gather new information for word learning. It applies an active learning and sampling lens to word learning. Experiment 1 aims to study whether adults engage in information seeking behavior that helps in disambiguating the reference, which is the central question they later ask in Experiment 2 with a developmental population. I am to replicate Experiment 1 (including the results in supplementary analyses s1). Ultimately I am also interested in a yoked version of this task to understand whether active learners outperformed their yoked counterparts on the same items.  
 
-Methods 
-Stimuli is available on OSF (alien images, novel words). The experiment was also developed in jsPsych (older version). In the task, there are three phases: training phase (where two referents and two labels are shown in random order, occurring 6 times, for a total of 24 trials), sampling phase (objects appear in 8 randomized locations), recall test without feedback
+Zettersten & Saffran (2020) uses cross situational learning tasks to understand how learners gather new information for word learning. What do people choose to learn when presented with an uncertainty of new words? Experiment 1 asked whether or not adult participants, when given information to sample from, would choose information that reduces referential ambiguity. What sampling strategies are people using for word learning? This is the central question that they later ask with a developmental population. They find that people choose the ambiguous word-object pair 62% of the time. The authors also ran a second version of Experiment 1 (S1), where the word-object ambiguity was graded instead across two between-subject conditions (Fully Ambiguous vs Partially Ambiguous). They replicated the findings from Experiment 1 and additionally also found that adults sampling preferences were sensitive to graded ambiguity. 
+
+This study aims to replicate the findings from the Supplementary Experiment 1 (S1) and also extend the study to see how sampling behavior changes over time by increasing the number of training-sampling rounds. We propose to first have participants complete S1 that is identical in structure and stimuli to replicate the original findings after which we would add the additional training-sampling rounds. This is a deviation from the original study, but allows for us to replicate the findings from S1 from the first round of sampling and testing trials. 
+
+Methods: 
+
+Stimuli: In S1, there were eight novel words and eight ‘alien’ images. The object-word association within each condition was randomized across participants. The independent variable in the experiment was the degree of ambiguity, manipulated as a between-subjects variable. There were two conditions: Fully Ambiguous in which the ambiguous object-word pairs always appeared together (the same as the main Experiment 1), and Partially Ambiguous in which the ambiguous object-word pairs appeared on only 4/6 of the trials. The key dependent variables were the sampling choice of objects that participants picked, reported as the proportion of ambiguous selections and test accuracy which determines whether participants are able to determine the correct object for each label. The experiment was developed in jsPsych (older version). 
+
+Design and Procedure: The Supplementary Experiment 1 consisted of four phases: Training, Sampling, and two Test Phases (whereas the main Experiment 1 only had one Test phase). The original structure of the S1 was Training-Test-Sampling-Test, while the proposed study’s structure will be Training-Test-Sampling-Test-Sampling-Test-Sampling-Test-Sampling-Test.  
+
+Training Phase: participants are presented with two referents and two labels in a random order, occurring 6 times for a total of 24 times.
+
+Sampling Phase: participants are presented with all 8 objects that appeared in randomized locations, where they are able to choose which items they would like to hear and see in the next set of cross situational learning trials. After this the, the object-label pair along with a second object chosen from random from the remaining objects in a cross-situational word learning trial with the same structure as in the training phase. 
+
+Testing Phase: participants finally completed an 8-AFC object-label recognition test without feedback.
 
 Challenges 
-The experiment was designed using some custom jsPsych plugins, which is where I believe I might run into some challenges. 
+The experiment was designed using some custom jsPsych plugins, which is where I believe I might run into some challenges. I aim to rebuild the entire experiment instead of using the plugins that are available on OSF. 
+
+Learning goals: 
+My main learning goal throughout this quarter is to understand how to design, implement, and run better experiments. This includes understanding motivations behind a research question and how certain design choices can shape what a study examines. By recreating this experiment, it not only pushes me to have a thorough understanding of the methods but also allows me to creatively explore what the natural extensions to the study is and how we might be able to do it. Aside from the technical skills, I hope that this project allows me to leverage from existing code as a foundation to create my own. Beyond that, I would also like to understand the analyses in depth, learning not only how to do them in R, but what each analyses is measuring and what they mean. 
 
 
 ## Methods
