@@ -11,7 +11,7 @@ var jsPsych = initJsPsych({
     {
       type: jsPsychExtensionPipe,
       params: {
-        experiment_id: "PASTE_YOUR_ID_HERE",
+        experiment_id: "hxixbjitXwxr",
         filename: function () {
           return subject_id + ".csv";
         }
