@@ -267,6 +267,8 @@ timeline = timeline.concat(trainingPhase);
 timeline = timeline.concat(postTrainingTestPhase); 
 timeline = timeline.concat(samplingPhase);
 timeline = timeline.concat(postSamplingTestPhase);
+timleine = timeline.concat(samplingPhase); 
+timeline = timeline.concat(postSamplingTestPhase);
 
 
 
