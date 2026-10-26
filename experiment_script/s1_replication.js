@@ -58,6 +58,15 @@ var stims = wordItems.map((word, i) => ({
 var timeline = []; 
 const instruction_format = (text) => `<div style="max-width: 50em; margin: 0 auto; text-align: left">${text}</div>`;
 
+// --------------------------------------  PRELOAD   -------------------------------------------------------
+// load all images and audio before the experiment starts (as in the original script),
+// so the words play on time and the aliens appear without delay
+var preload = {
+  type: jsPsychPreload,
+  images: stims.map((stim) => stim.image),
+  audio: stims.map((stim) => stim.audio).concat(['stimuli/apple.m4a', 'stimuli/ball.m4a']), // novel words + audio check words
+};
+
 
 // --------------------------------------  FULLSCREEN INSTRUCTIONS AUDITORY ATTENTION CHECK   -------------------------------------------------------
 
@@ -251,7 +260,8 @@ var postTrainingTestPhase = make_test_phase(
 var postSamplingTestPhase = make_test_phase(
   `Now we will test how well you learned the words again. Just like before, you will see a name and be asked to choose which of the eight pictured aliens goes with the name. In each trial, click START. The name for one of the aliens will appear on the screen. Click on the alien you think the name refers to. Click NEXT to get started.`,);
 
-// EXPERIMENT TIMELINE 
+// EXPERIMENT TIMELINE
+timeline.push(preload);
 timeline = timeline.concat(instructionsAttentionCheck); // general instructions + audio check trials
 timeline = timeline.concat(trainingPhase);
 timeline = timeline.concat(postTrainingTestPhase); 
