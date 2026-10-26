@@ -114,8 +114,8 @@ instructions = {
   show_clickable_nav: true
 }; start_exp.push (instructions); 
 
+// ------------------------------------------------  TRAINING PHASE  -----------------------------------------------------------------
 
-// TRAINING PHASE 
 var training_phase = []; 
 
 // Note: Hard coded stimulis combination are from the original experiment script that was available in OSF
@@ -141,7 +141,7 @@ const specifiedstim = {
 var stimulus_set_condition = jsPsych.randomization.repeat(specifiedstim[condition], 1);
 
 const numTrainingBlocks = 2; 
-const numTrialsPerBlock = specifiedstim[condition].length; // 12 from the specified stim list 
+const numTrainingTrialsPerBlock = specifiedstim[condition].length; // 12 from the specified stim list 
 
 for (let block = 0; block < numTrainingBlocks; block++){
   
@@ -158,7 +158,7 @@ for (let block = 0; block < numTrainingBlocks; block++){
     }
   )
 
-  for (let trial = 0; trial < numTrialsPerBlock; trial++){
+  for (let trial = 0; trial < numTrainingTrialsPerBlock; trial++){
 
     // stimuli pairs that will appear in the trial
     var currentStimuliPair = currentTrainingBlockTrials[trial]; 
@@ -190,15 +190,45 @@ for (let block = 0; block < numTrainingBlocks; block++){
 }
 
 
-// SAMPLING PHASE 
-//  var sampling = {
-//       type: jsPsychSampling,
-     
-//     }; timeline.push(sampling);
-    // TO-DO sampling plugin
+
+// ------------------------------------------------  SAMPLING PHASE  -----------------------------------------------------------------
+
+var sampling_phase = [];
+
+var sampling_instructions = {
+  type: jsPsychInstructions,
+  pages: ['Next, you will get a chance to choose which alien to learn about next. On a trial, you will see all 8 aliens on the screen. Then, you will get to choose which of the 8 aliens you would like to appear in the next learning trial. After you choose an alien, another alien will be chosen at random by the computer. Then, you will see a new learning trial - just like the ones you just saw - with two aliens: the alien you picked and the alien chosen at random. Remember that we will test how well you learned the words later, so try to make choices that will help you learn the names! Click NEXT to get started.'],
+  show_clickable_nav: true
+}; sampling_phase.push(sampling_instructions);
+
+const numSamplingBlocks = 1; 
+const numSamplingTrialsPerBlock = 4; 
+const sampling_stims = jsPsych.randomization.shuffle(stims); 
+const locations = jsPsych.randomization.repeat([["left", "right"], ["right", "left"]], numSamplingTrialsPerBlock / 2);
+const selectedWordFirst = jsPsych.randomization.repeat([true, false], numSamplingTrialsPerBlock / 2);
+
+for (let i =0; i < numSamplingBlocks; i++) {
+  
+  for (let j =0; j < numSamplingTrialsPerBlock; j++) {
+		
+	var samplingTrial = {
+    type: jsPsychSampling,
+      stimuli_set: sampling_stims, 
+      selected_learning_location: locations[j][0], //  location
+      random_learning_location: locations[j][1],
+      selected_word_first: selectedWordFirst[j],
+    	data: {block: i+1, samplingTrial: j+1}
+	};
+	
+	sampling_phase.push(samplingTrial);
+
+};
+};
 
 
-// TESTING PHASE
+
+
+// TO-DO: TESTING PHASE
     // 2AFC testing plugin
     //  var comprehension_test = {
     //   type: jsPsychComprehensionTest,
@@ -209,10 +239,9 @@ for (let block = 0; block < numTrainingBlocks; block++){
 // EXPERIMENT TIMELINE 
 timeline = timeline.concat(start_exp); // general instructions + audio check trials
 timeline = timeline.concat(training_phase);
-// timeline = timeline.concat(sampling_phase);
+timeline = timeline.concat(sampling_phase);
 // timeline = timeline.concat(test_phase);
 
-
-
+    
 
 jsPsych.run(timeline);

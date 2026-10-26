@@ -93,15 +93,15 @@ var jsPsychLearning = (function (jspsych) {
                 default: 500, // timing_post_trial from original script
             },
 
+
             // [width, height]
-            // 80vw x 40vw (2:1), unless the window is too short for that, then 160vh x 80vh (still 2:1)
-            // so the container always fits within the window
+            // 100vh x 25vh (4:1), scaled to the window height,
+            // unless the window is too narrow for that, then 80vw x 20vw (still 4:1)
             container_size: {
                 type: jspsych.ParameterType.STRING,
                 array: true,
-                default: ['min(80vw, 160vh)', 'min(40vw, 80vh)'],
+                default: ['min(100vh, 80vw)', 'min(25vh, 20vw)'],
             },
-
             
         },
         data: {
@@ -146,48 +146,53 @@ var jsPsychLearning = (function (jspsych) {
             
             // the container is the complete area in which all elements of the trial will be displayed  
             // const values listed below are in relation to the container, where it is considered
-            // that the container width and height are 100w x 100h (by default 80vw x 40vw, or 160vh x 80vh on short windows)
-            const IMAGE_SIZE = 10;
-            const CIRCLE_DISTANCE = 10; // gap between the outer edges of the two circles
-            const CIRCLE_BORDER = 0.4;
-            const CIRCLE_DIAMETER = 15; // (including border)
-            const PROMPT_FONT_SIZE = 1.7; 
-            const PROMPT_TOP = 25; // in % how far from the top of the container u want the prompt to appear  
-            const WORD_FONT_SIZE = 1.7;
-            const BUTTON_FONT_SIZE = 1.2;
+            // that the container width and height are 100w x 100h (by default 100vh x 25vh, or 80vw x 20vw on narrow windows)
+            const IMAGE_SIZE = 18;
+            const CIRCLE_DISTANCE = 12; // gap between the outer edges of the two circles
+            const CIRCLE_BORDER = 0.5;
+            const CIRCLE_DIAMETER = 22; // (including border)
+            const PROMPT_FONT_SIZE = 2.1; 
+            const PROMPT_GAP = 4; // gap between the bottom of the prompt and the top of the container
+            const WORD_FONT_SIZE = 2.1;
+            const BUTTON_FONT_SIZE = 1.7;
             const FADE_MS = 150; // word fade in/out duration, from the original script
 
             // claude: converts a value in w units (percent of the container width) to a css length;
             // used for sizes so circles stay round even though the container is not square
             const w = (n) => `calc(${CONTAINER_WIDTH} * ${n / 100})`;
 
-            
+           
+
+            // prompt text above the container
+            // same width as the container so it is centered over it
+            const prompt = document.createElement("div");
+            prompt.className = 'jspsych-learning-prompt';
+            prompt.textContent = trial.prompt;
+            prompt.style.cssText = `
+                width: ${CONTAINER_WIDTH};
+                margin: 0 auto ${w(PROMPT_GAP)} auto;
+                text-align: center;
+                white-space: nowrap;
+                font-size: ${w(PROMPT_FONT_SIZE)};
+                line-height: 1;
+                font-weight: bold;
+            `;
+            display_element.appendChild(prompt);
+
             // learning trial container within the plugin display
-            // plugin default --> 80% x 40% of the screen's width, capped so it never gets taller than 80% of the screen's height
+            // plugin default --> 4:1 container scaled to the screen's height (25% of it), capped at 80% of the screen's width
             const container = document.createElement("div");
             container.id = "jspsych-learning-container";
             container.style.cssText = `
                 position: relative;
                 width: ${CONTAINER_WIDTH};
                 height: ${CONTAINER_HEIGHT};
+                margin-bottom: 50vh;
+                // border: 1px solid #000;
+
             `;
 
             display_element.appendChild(container);
-
-            // prompt text, horizontally centered near the top of the container
-            const prompt = document.createElement("div");
-            prompt.className = 'jspsych-learning-prompt';
-            prompt.textContent = trial.prompt;
-            prompt.style.cssText = `
-                position: absolute;
-                left: 50%;
-                top: ${PROMPT_TOP}%;
-                transform: translate(-50%, -50%);
-                white-space: nowrap;
-                font-size: ${w(PROMPT_FONT_SIZE)};
-                font-weight: bold;
-            `;
-            container.appendChild(prompt);
 
 
             // claude: circle centers, symmetric around the middle of the container: each center is half the gap
