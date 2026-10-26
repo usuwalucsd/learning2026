@@ -16,7 +16,7 @@ Proposal:
 
 Zettersten & Saffran (2020) uses cross situational learning tasks to understand how learners gather new information for word learning. What do people choose to learn when presented with an uncertainty of new words? Experiment 1 asked whether or not adult participants, when given information to sample from, would choose information that reduces referential ambiguity. What sampling strategies are people using for word learning? This is the central question that they later ask with a developmental population. They find that people choose the ambiguous word-object pair 62% of the time. The authors also ran a second version of Experiment 1 (S1), where the word-object ambiguity was graded instead across two between-subject conditions (Fully Ambiguous vs Partially Ambiguous). They replicated the findings from Experiment 1 and additionally also found that adults sampling preferences were sensitive to graded ambiguity. 
 
-This study aims to replicate the findings from the Supplementary Experiment 1 (S1) and also extend the study to see how sampling behavior changes over time by increasing the number of training-sampling rounds. We propose to first have participants complete S1 that is identical in structure and stimuli to replicate the original findings after which we would add the additional training-sampling rounds. This is a deviation from the original study, but allows for us to replicate the findings from S1 from the first round of sampling and testing trials. 
+This study aims to replicate the findings from the Supplementary Experiment 1 (S1) and also extend the study to see how sampling behavior changes over time by increasing the number of training-sampling rounds. We propose to first have participants complete S1 that is identical in structure and stimuli to replicate the original findings after which we would add the additional training-sampling rounds. 
 
 ## Methods
 
@@ -48,13 +48,24 @@ Participants will complete the phases in the order Training-Test-Sampling-Test a
 
 ### Analysis Plan
 
-Can also quote directly, though it is less often spelled out effectively for an analysis strategy section.  The key is to report an analysis strategy that is as close to the original - data cleaning rules, data exclusion rules, covariates, etc. - as possible.  
+*Data Pre-processing* We will exclude observations from our analyses if participants fail to get the auditory attention check correct. Since participants' responses were free text, responses will be evaluated with a case-insensitive regex pattern. 
 
-**Clarify key analysis of interest here**  You can also pre-specify additional analyses you plan to do.
+We will assess two key dependent measures: 
 
+1. Sampling choices, specifically whether or not they choose ambiguous object-label pairs to learn from. We will fit the same logistic mixed-effects model used in Experiment S1, specified as follows: 
+  ```
+  ambiguous selection ~ 1 + condition + (1 | participant) + (1 | item)
+  ```
+
+2. Comparison of test accuracy before and after sampling. We will fit the same logistic mixed-effects model used in Experiment S1, specified as follows: 
+  ```
+  correct choice ∼ test block × item type × condition + 
+  (1 + test block × item type | participant) + (1 | item)
+  ```
 ### Differences from Original Study
 
-Explicitly describe known differences in sample, setting, procedure, and analysis plan from original study.  The goal, of course, is to minimize those differences, but differences will inevitably occur.  Also, note whether such differences are anticipated to make a difference based on claims in the original article or subsequent published research on the conditions for obtaining the effect.
+1. We will be adding two additional Sampling-Test cycles, adding four additional blocks to the original experiment. 
+2. In the orignal study, Experiment S1 was conducted in-person and participants for Experiment 1 were recruited via MTurk. We will be recruiting participants from an undegraduate SONA pool and is run online. 
 
 ### Methods Addendum (Post Data Collection)
 
