@@ -368,10 +368,14 @@ var jsPsychSampling = (function (jspsych) {
                 const random = trial.stimuli_set[random_index];
                 const words = trial.selected_word_first ? [chosen, random] : [random, chosen];
 
+                // audio players for both words, from the files loaded by jsPsychPreload (loaded here if they weren't)
+                const players = await Promise.all(
+                    words.map((word) => this.jsPsych.pluginAPI.getAudioPlayer(word.audio)));
+
                 for (let i = 0; i < words.length; i++) {
                     word_display.textContent = words[i].word;
                     await fade_word(1);
-                    new Audio(words[i].audio).play();
+                    players[i].play();
                     await wait(trial.duration);
                     // as in the original, the trial ends as soon as the second word's hold is over
                     if (i < words.length - 1) {

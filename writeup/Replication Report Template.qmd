@@ -1,5 +1,5 @@
 ---
-title: "Replication of Study X by Sample & Sample (20xx, Psychological Science)"
+title: "Replication of Sampling to Learn Words by Zettersten & Saffran (2020, Developmental Science)"
 author: "Urvi Suwal (usuwal@ucsd.edu)"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 format:
@@ -18,25 +18,6 @@ Zettersten & Saffran (2020) uses cross situational learning tasks to understand 
 
 This study aims to replicate the findings from the Supplementary Experiment 1 (S1) and also extend the study to see how sampling behavior changes over time by increasing the number of training-sampling rounds. We propose to first have participants complete S1 that is identical in structure and stimuli to replicate the original findings after which we would add the additional training-sampling rounds. This is a deviation from the original study, but allows for us to replicate the findings from S1 from the first round of sampling and testing trials. 
 
-Methods: 
-
-Stimuli: In S1, there were eight novel words and eight ‘alien’ images. The object-word association within each condition was randomized across participants. The independent variable in the experiment was the degree of ambiguity, manipulated as a between-subjects variable. There were two conditions: Fully Ambiguous in which the ambiguous object-word pairs always appeared together (the same as the main Experiment 1), and Partially Ambiguous in which the ambiguous object-word pairs appeared on only 4/6 of the trials. The key dependent variables were the sampling choice of objects that participants picked, reported as the proportion of ambiguous selections and test accuracy which determines whether participants are able to determine the correct object for each label. The experiment was developed in jsPsych (older version). 
-
-Design and Procedure: The Supplementary Experiment 1 consisted of four phases: Training, Sampling, and two Test Phases (whereas the main Experiment 1 only had one Test phase). The original structure of the S1 was Training-Test-Sampling-Test, while the proposed study’s structure will be Training-Test-Sampling-Test-Sampling-Test-Sampling-Test-Sampling-Test.  
-
-Training Phase: participants are presented with two referents and two labels in a random order, occurring 6 times for a total of 24 times.
-
-Sampling Phase: participants are presented with all 8 objects that appeared in randomized locations, where they are able to choose which items they would like to hear and see in the next set of cross situational learning trials. After this the, the object-label pair along with a second object chosen from random from the remaining objects in a cross-situational word learning trial with the same structure as in the training phase. 
-
-Testing Phase: participants finally completed an 8-AFC object-label recognition test without feedback.
-
-Challenges 
-The experiment was designed using some custom jsPsych plugins, which is where I believe I might run into some challenges. I aim to rebuild the entire experiment instead of using the plugins that are available on OSF. 
-
-Learning goals: 
-My main learning goal throughout this quarter is to understand how to design, implement, and run better experiments. This includes understanding motivations behind a research question and how certain design choices can shape what a study examines. By recreating this experiment, it not only pushes me to have a thorough understanding of the methods but also allows me to creatively explore what the natural extensions to the study is and how we might be able to do it. Aside from the technical skills, I hope that this project allows me to leverage from existing code as a foundation to create my own. Beyond that, I would also like to understand the analyses in depth, learning not only how to do them in R, but what each analyses is measuring and what they mean. 
-
-
 ## Methods
 
 ### Power Analysis
@@ -45,15 +26,25 @@ Original effect size, power analysis for samples to achieve 80%, 90%, 95% power 
 
 ### Planned Sample
 
-Planned sample size and/or termination rule, sampling frame, known demographics if any, preselection rules if any.
+Participants will be undergraduate students from UC San Diego recruited online via the SONA systems. Participants will be given course credits for participation. Exclusion criteria include  1) if they do not pass the auditory attention check, which includes listening to two recordings of a familiar English word (“apple” and “ball”) and typing out the word into a free response text box 2) Only native English speakers will be able to participate in this study. Participants will be randomly assigned either the Fully Ambiguous condition or Partially Ambiguous condition. 
 
 ### Materials
 
-All materials - can quote directly from original article - just put the text in quotations and note that this was followed precisely.  Or, quote directly and just point out exceptions to what was described in the original article.
+The stimuli will be identical to those used in the original study, which consists of the following – “The objects were eight images of novel ‘alien’ creatures used in previous studies (Partridge et al., 2015). Eight novel words (beppo, finna, guffi, kita, noopy, manu, sibu, tesser) were recorded by a female native speaker of English and normalized in duration and average loudness. The association between each label and its target referent and the roles of the stimuli within a condition were randomized across participants. The stimuli were presented using jsPsych (de Leeuw, 2015). All stimuli and experimental scripts for Experiment 1 and all subsequent experiments can be viewed on the Open Science Framework (OSF) (https://osf.io/udmvh/).” For this project, the experiment will be re-implemented using the latest version of jsPsych 8. 
 
 ### Procedure	
 
-Can quote directly from original article - just put the text in quotations and note that this was followed precisely.  Or, quote directly and just point out exceptions to what was described in the original article.
+The web experiment will be hosted on Github Pages and data will be collected to a Google Drive using the DataPipe plugin. The URL for the experiment will be available once the participant signs up for the study on SONA. 
+
+The design of this experiment will closely follow the original study which consisted of the following phases: 
+
+*Training Phase* “Participants completed 24 cross-situational learning trials (two blocks of 12 trials), presented in random order. Participants were instructed that their goal was to learn the association between eight novel labels and their referents. On each trial, participants were presented with two referents and two labels. The labels appeared sequentially in random order, both visually and auditorily. Consequently, the association between a particular label and its referent remained ambiguous on any single trial, but could be disambiguated by aggregating information across trials. Each object and its label occurred six times across the 24 training trials.” Participants will be randomly assigned one of two conditions: Fully Ambiguous or Partially Ambiguous. In the Fully Ambiguous condition “half of the object-label pairs were never disambiguated and half of the object-label pairs were disambiguated across training trials”. For an object-label pair to never be disambiguated means that it always co-occurred, so the learners are not able to work out which object goes with which label. In the Partially Ambiguous condition, “half of the object-label pairs were grouped such that two specific objects co-occurred on 4 out of their 6 occurrences, but each object occurred with a different object from the ambiguous object set on the remaining 2 trials The other four objects were disambiguated as in the Fully Ambiguous condition.” Participants saw each of the 8 individual object-label pairs equally frequently.
+
+*Sampling Phase* “Participants completed four sampling trials. On each trial, all eight objects appeared in randomized locations. Participants were instructed to select which of the eight items they wanted to hear on the next cross-situational learning trial. After participants made a selection, a second object was chosen at random from the remaining objects. The two objects and their labels then appeared together in a cross-situational word learning trial with the same structure as in the training phase.” 
+
+*Test Phase* To assess whether or not participants learned the object-label associations , participants  were asked to complete an 8-AFC (alternative forced choice) recognition test. “On each test trial, all eight objects appeared in randomized locations on the screen, along with one of the eight labels. Participants were asked to select the object that went with the label. No feedback was provided. Participants were tested on each label in random order, for a total of eight test trials.”
+
+Participants will complete the phases in the order Training-Test-Sampling-Test as in Experiment S1. Additionally, to understand how people’s sampling behavior changes over time, participants will then complete two further Sampling-Test rounds, each with a Sampling Phase with 4 trials and Testing Phase with 8 trials using the same eight object-pair labels. 
 
 ### Analysis Plan
 

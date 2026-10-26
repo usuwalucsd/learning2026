@@ -292,10 +292,14 @@ var jsPsychLearning = (function (jspsych) {
 
             // each word fades in, its audio plays, it stays for `duration`, then fades out
             const present_words = async () => {
+                // audio players for both words, from the files loaded by jsPsychPreload (loaded here if they weren't)
+                const players = await Promise.all(
+                    words.map((word) => this.jsPsych.pluginAPI.getAudioPlayer(word.audio)));
+
                 for (let i = 0; i < words.length; i++) {
                     word_display.textContent = words[i].word;
                     await fade(1);
-                    new Audio(words[i].audio).play();
+                    players[i].play();
                     await wait(trial.duration);
                     // as in the original, the trial ends as soon as the second word's hold is over
                     if (i < words.length - 1) {
