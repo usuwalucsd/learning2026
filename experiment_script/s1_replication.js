@@ -56,27 +56,31 @@ var stims = wordItems.map((word, i) => ({
 }));
 
 var timeline = []; 
+const instruction_format = (text) => `<div style="max-width: 50em; margin: 0 auto; text-align: left">${text}</div>`;
 
-var start_exp = []; 
-// START EXPERIMENT FULLSCREEN 
-start_exp.push({
+
+// --------------------------------------  FULLSCREEN INSTRUCTIONS AUDITORY ATTENTION CHECK   -------------------------------------------------------
+
+
+var instructionsAttentionCheck = []; 
+
+var fullscreen = {
   type: jsPsychFullscreen,
   message: `<p>The experiment will launch in fullscreen mode when you click the button below.</p>`, 
   button_label: `Launch Experiment`, 
   fullscreen_mode: true
-});
+}; instructionsAttentionCheck.push(fullscreen);
 
 
-// GENERAL TASK INSTRUCTIONS 
 var instructions = {
   type: jsPsychInstructions,
   pages: [
-    'Welcome to this experiment. In this experiment you will learn names for aliens. There will be few different learning tasks as you go.<br><br>You will need to hear audio during the experiment, so make sure you are using an up-to-date browser (Firefox, Chrome, or Safari should all be good options). First, we will check that your audio is working properly. We will play you simple words and ask you to type in what you hear. Pay close attention - we will only accept HITs in which people pass this initial audio test. Make sure your audio is turned on, then click NEXT to start the audio test!',
+    instruction_format('Welcome to this experiment. In this experiment you will learn names for aliens. There will be few different learning tasks as you go.<br><br>You will need to hear audio during the experiment, so make sure you are using an up-to-date browser (Firefox, Chrome, or Safari should all be good options). First, we will check that your audio is working properly. We will play you simple words and ask you to type in what you hear. Pay close attention - we will only accept HITs in which people pass this initial audio test. Make sure your audio is turned on, then click NEXT to start the audio test!'),
   ],
   show_clickable_nav: true
-}; start_exp.push(instructions); 
+}; instructionsAttentionCheck.push(instructions); 
 
-// AUDIO CHECK 
+// auditory attention check
 // part of the exclusion criteria if participants do not identify the correct word 
 // that they hear in the audio 
 var audio_check = {
@@ -103,20 +107,20 @@ var audio_check = {
     { audio: 'stimuli/apple.m4a' },
     { audio: 'stimuli/ball.m4a' }
   ]
-}; start_exp.push(audio_check)
+}; instructionsAttentionCheck.push(audio_check)
 
 
 instructions = {
   type: jsPsychInstructions,
   pages: [
-    `Great! Now, let's begin with the experiment. In the first task, you will learn the names for 8 different alien creatures. On each trial, you will see two aliens and hear and read two names. At first, you won't know which name goes with which alien because the names appear <b>in random order</b>. Try to figure out over time which name goes with which alien. Please do not write any information down - just do your best to remember and learn the names as you go. Remember that you'll hear the name for each of the two aliens and read them on the screen, but the order of the names will be completely random (so, for example, the first name that appears does not necessarily go with the left alien). Make sure your audio is still on, then click NEXT to start learning!`
+    instruction_format(`Great! Now, let's begin with the experiment. In the first task, you will learn the names for 8 different alien creatures. On each trial, you will see two aliens and hear and read two names. At first, you won't know which name goes with which alien because the names appear <b>in random order</b>. Try to figure out over time which name goes with which alien. Please do not write any information down - just do your best to remember and learn the names as you go. Remember that you'll hear the name for each of the two aliens and read them on the screen, but the order of the names will be completely random (so, for example, the first name that appears does not necessarily go with the left alien). Make sure your audio is still on, then click NEXT to start learning!`)
   ],
   show_clickable_nav: true
-}; start_exp.push (instructions); 
+}; instructionsAttentionCheck.push (instructions); 
 
 // ------------------------------------------------  TRAINING PHASE  -----------------------------------------------------------------
 
-var training_phase = []; 
+var trainingPhase = []; 
 
 // Note: Hard coded stimulis combination are from the original experiment script that was available in OSF
 // each block has 12 cross-situational trials, each showing 2 object (pairs of indices into stims);
@@ -150,10 +154,10 @@ for (let block = 0; block < numTrainingBlocks; block++){
 
   // reminder/repeated instruction page, participants are given the same instructions about the learning the object-word association 
   // comes after completing a block of training phase trials 
-  if (block > 0) training_phase.push(
+  if (block > 0) trainingPhase.push(
 	  {
       type: jsPsychInstructions,
-      pages: ["Here are some more learning trials where you see two aliens and hear two names. The names will appear in random order, so you will have to figure out which name goes with each alien over time. Pay close attention and try to learn the names for the aliens!"],
+      pages: [instruction_format("Here are some more learning trials where you see two aliens and hear two names. The names will appear in random order, so you will have to figure out which name goes with each alien over time. Pay close attention and try to learn the names for the aliens!")],
       show_clickable_nav: true
     }
   )
@@ -162,19 +166,16 @@ for (let block = 0; block < numTrainingBlocks; block++){
 
     // stimuli pairs that will appear in the trial
     var currentStimuliPair = currentTrainingBlockTrials[trial]; 
-    const [stimuli1, stimuli2] = [stims[currentStimuliPair[0]], 
-                                  stims[currentStimuliPair[1]]]; 
+    const [stimuli1, stimuli2] = [stims[currentStimuliPair[0]], stims[currentStimuliPair[1]]]; 
 
     // which side each image appears on in the trial
-    const [location1, location2] = jsPsych.randomization.shuffle
-                                   (["left", "right"]);
+    const [location1, location2] = jsPsych.randomization.shuffle(["left", "right"]);
     
     // order in which the word+audio is presented in the trial
-    const [wordOrder1, wordOrder2] = jsPsych.randomization.shuffle
-                                    ([0, 1]);
+    const [wordOrder1, wordOrder2] = jsPsych.randomization.shuffle([0, 1]);
 
 
-    var current_training_trial = {
+    var trainingTrial = {
       type: jsPsychLearning,
       stimuli1: stimuli1,
       stimuli2: stimuli2,
@@ -184,22 +185,20 @@ for (let block = 0; block < numTrainingBlocks; block++){
       wordOrder2: wordOrder2
     }
 
-    training_phase.push(current_training_trial);
+    trainingPhase.push(trainingTrial);
     
   }
 }
 
-
-
 // ------------------------------------------------  SAMPLING PHASE  -----------------------------------------------------------------
 
-var sampling_phase = [];
+var samplingPhase = [];
 
-var sampling_instructions = {
+var samplingInstructions = {
   type: jsPsychInstructions,
-  pages: ['Next, you will get a chance to choose which alien to learn about next. On a trial, you will see all 8 aliens on the screen. Then, you will get to choose which of the 8 aliens you would like to appear in the next learning trial. After you choose an alien, another alien will be chosen at random by the computer. Then, you will see a new learning trial - just like the ones you just saw - with two aliens: the alien you picked and the alien chosen at random. Remember that we will test how well you learned the words later, so try to make choices that will help you learn the names! Click NEXT to get started.'],
+  pages: [instruction_format('Next, you will get a chance to choose which alien to learn about next. On a trial, you will see all 8 aliens on the screen. Then, you will get to choose which of the 8 aliens you would like to appear in the next learning trial. After you choose an alien, another alien will be chosen at random by the computer. Then, you will see a new learning trial - just like the ones you just saw - with two aliens: the alien you picked and the alien chosen at random. Remember that we will test how well you learned the words later, so try to make choices that will help you learn the names! Click NEXT to get started.')],
   show_clickable_nav: true
-}; sampling_phase.push(sampling_instructions);
+}; samplingPhase.push(samplingInstructions);
 
 const numSamplingBlocks = 1; 
 const numSamplingTrialsPerBlock = 4; 
@@ -220,28 +219,47 @@ for (let i =0; i < numSamplingBlocks; i++) {
     	data: {block: i+1, samplingTrial: j+1}
 	};
 	
-	sampling_phase.push(samplingTrial);
+	samplingPhase.push(samplingTrial);
 
 };
 };
 
+// ------------------------------------------------  TESTING PHASE  -----------------------------------------------------------------
 
+// builds one test phase: instructions + one comprehension trial per novel word (random order)
+const make_test_phase = (instruction_text) => {
+  const target_words = jsPsych.randomization.shuffle(stims);   // each novel word tested once, random order
 
+  const instructions = {
+    type: jsPsychInstructions,
+    pages: [instruction_format(instruction_text)],
+    show_clickable_nav: true
+  };
 
-// TO-DO: TESTING PHASE
-    // 2AFC testing plugin
-    //  var comprehension_test = {
-    //   type: jsPsychComprehensionTest,
-      
-     
-    // }; timeline.push(comprehension_test);
+  const test_trials = target_words.map((target) => ({
+    type: jsPsychComprehensionTest,
+    stimuli_set: jsPsych.randomization.shuffle(stims),   // new location for stims each trial
+    target_word: target.word,
+  }));
+
+  return [instructions].concat(test_trials);
+};
+
+var postTrainingTestPhase = make_test_phase(
+  `Now we will test how well you learned the words. You will see a name and be asked to choose which of the eight pictured aliens goes with the name. In each trial, click START. The name for one of the aliens will appear on the screen. Click on the alien you think the name refers to. Click NEXT to get started.`,);
+
+var postSamplingTestPhase = make_test_phase(
+  `Now we will test how well you learned the words again. Just like before, you will see a name and be asked to choose which of the eight pictured aliens goes with the name. In each trial, click START. The name for one of the aliens will appear on the screen. Click on the alien you think the name refers to. Click NEXT to get started.`,);
 
 // EXPERIMENT TIMELINE 
-timeline = timeline.concat(start_exp); // general instructions + audio check trials
-timeline = timeline.concat(training_phase);
-timeline = timeline.concat(sampling_phase);
-// timeline = timeline.concat(test_phase);
+timeline = timeline.concat(instructionsAttentionCheck); // general instructions + audio check trials
+timeline = timeline.concat(trainingPhase);
+timeline = timeline.concat(postTrainingTestPhase); 
+timeline = timeline.concat(samplingPhase);
+timeline = timeline.concat(postSamplingTestPhase);
 
-    
+
+
+
 
 jsPsych.run(timeline);
