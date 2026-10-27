@@ -115,7 +115,8 @@ var audio_check = {
   timeline_variables: [
     { audio: 'stimuli/apple.m4a' },
     { audio: 'stimuli/ball.m4a' }
-  ]
+  ], 
+  randomize_order: true, 
 }; instructionsAttentionCheck.push(audio_check)
 
 
