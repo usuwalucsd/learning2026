@@ -5,6 +5,7 @@ Zettersten, M., & Saffran, J. R. (2021). Sampling to learn words: Adults and chi
 
 ## Contents 
 `experiment_script` contains the jsPsych web experiment implementation that uses html and javascript
+
 `stimuli` contains the audio and image files used in the experiment from the original study
 
 ## Questions 
