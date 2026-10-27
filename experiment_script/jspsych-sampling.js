@@ -375,7 +375,15 @@ var jsPsychSampling = (function (jspsych) {
                 for (let i = 0; i < words.length; i++) {
                     word_display.textContent = words[i].word;
                     await fade_word(1);
-                    players[i].play();
+                    // claude debug for audio buffer error: players are cached per audio file and a web audio source node can only be started once,
+                    // so stop() once it finishes to give the player a fresh node for the next time this word is played
+                    const player = players[i];
+                    const on_ended = () => {
+                        player.removeEventListener("ended", on_ended);
+                        player.stop();
+                    };
+                    player.addEventListener("ended", on_ended);
+                    player.play();
                     await wait(trial.duration);
                     // as in the original, the trial ends as soon as the second word's hold is over
                     if (i < words.length - 1) {
